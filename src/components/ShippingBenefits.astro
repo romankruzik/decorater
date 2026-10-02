@@ -1,0 +1,195 @@
+---
+const items = [
+  {
+    title: "Doprava po Brně",
+    text: "Doručujeme vlastní dopravou po Brně a okolí.",
+    accent: "Rychle, bezpečně a osobně.",
+    icon: "truck",
+  },
+  {
+    title: "Zasíláme po celé ČR",
+    text: "Ostatní produkty pečlivě balíme a zasíláme po celé České republice.",
+    accent: "Spolehlivě a s maximální ochranou.",
+    icon: "parcel",
+  },
+  {
+    title: "Pečlivě zabaleno",
+    text: "Každý produkt balíme s maximální péčí, aby dorazil v perfektním stavu.",
+    accent: "Ideální i jako dárek.",
+    icon: "gift",
+  },
+] as const;
+---
+
+<section class="benefits" aria-labelledby="benefits-title">
+  <p class="benefits__eyebrow">
+    Doručujeme s péčí
+    <svg class="benefits__heart" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 19.4 5.2 12.5A4.6 4.6 0 0 1 12 6.6a4.6 4.6 0 0 1 6.8 5.9Z"></path>
+    </svg>
+  </p>
+  <h2 id="benefits-title" class="benefits__title">Bezpečně k Vám domů</h2>
+
+  <ul class="benefits__grid">
+    {
+      items.map((item) => (
+        <li>
+          <span class="benefits__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64">
+              {item.icon === "truck" && (
+                <g>
+                  <rect x="6" y="22" width="30" height="20" rx="3.4"></rect>
+                  <path d="M36 26.2h11.2L55 38.4v3.6H36"></path>
+                  <path d="M39.2 28.6h6.6L51.4 38.4H39.2Z"></path>
+                  <circle cx="18.2" cy="45.6" r="4.4"></circle>
+                  <circle cx="45.6" cy="45.6" r="4.4"></circle>
+                </g>
+              )}
+              {item.icon === "parcel" && (
+                <g>
+                  <path d="M14 26.2 32 16.4 50 26.2v20.4L32 56.4 14 46.6Z"></path>
+                  <path d="M14 26.2 32 35.8 50 26.2"></path>
+                  <path d="M32 35.8v20.6"></path>
+                </g>
+              )}
+              {item.icon === "gift" && (
+                <g>
+                  <rect x="15" y="30.5" width="34" height="21.5" rx="3.2"></rect>
+                  <rect x="13.5" y="22.8" width="37" height="8.4" rx="2.6"></rect>
+                  <path d="M32 22.8v29.2"></path>
+                  <path d="M32 13.4c-5.6 0-9.2 4.2-9.2 9.4h18.4c0-5.2-3.6-9.4-9.2-9.4Z"></path>
+                </g>
+              )}
+            </svg>
+          </span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+          <p class="benefits__accent">{item.accent}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .benefits {
+    margin: 0 0 var(--space-2xl);
+    padding: var(--space-2xl) var(--space-lg);
+    text-align: center;
+    color: var(--plum);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+  }
+
+  .benefits__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    margin: 0 0 var(--space-sm);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--plum);
+  }
+
+  .benefits__heart {
+    width: 1.05rem;
+    height: 1.05rem;
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .benefits__title {
+    margin: 0 0 var(--space-xl);
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4.4vw, 3.35rem);
+    font-weight: 500;
+    line-height: 1.15;
+    color: var(--plum);
+  }
+
+  .benefits__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .benefits__grid li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 22rem;
+    margin-inline: auto;
+  }
+
+  .benefits__icon {
+    display: grid;
+    place-items: center;
+    width: 6.1rem;
+    height: 6.1rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .benefits__icon svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .benefits h3 {
+    margin: 0 0 var(--space-sm);
+    font-family: var(--font-body);
+    font-size: 1.02rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--plum);
+  }
+
+  .benefits p {
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 500;
+    line-height: 1.65;
+    color: var(--plum);
+  }
+
+  .benefits p.benefits__accent {
+    margin-top: 0.55rem;
+    font-style: normal;
+    font-weight: 800;
+    color: var(--plum);
+  }
+
+  @media (min-width: 860px) {
+    .benefits {
+      padding: var(--space-2xl) var(--space-xl);
+    }
+
+    .benefits__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .benefits__grid li {
+      max-width: none;
+      padding-inline: var(--space-sm);
+    }
+  }
+</style>

@@ -1,0 +1,75 @@
+---
+import HeroCarousel from "../components/HeroCarousel.astro";
+import ProductGrid from "../components/ProductGrid.astro";
+import ShippingBenefits from "../components/ShippingBenefits.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { catalog, getHomeNewCollection } from "../data/catalog";
+import { withBase } from "../data/paths";
+---
+
+<BaseLayout>
+  <HeroCarousel slides={catalog.homepage.heroSlides} />
+
+  <div class="container page">
+
+    <ShippingBenefits />
+
+    <section class="section" aria-labelledby="new-collection">
+      <h2 id="new-collection" class="section-title">Nová kolekce</h2>
+      <ProductGrid products={getHomeNewCollection()} />
+      <p class="section__more">
+        <a class="btn btn-primary" href={withBase("/nabidka/")}>Celá nabídka e-shopu</a>
+      </p>
+    </section>
+
+    <section class="intro" aria-labelledby="intro-title">
+      <h2 id="intro-title" class="intro__title display">Ručně vyráběné dekorace, které neuvadnou</h2>
+      <div class="intro__content prose">
+        <p>
+          V dílně Decorater tvoříme originální flower boxy, květinové a mechové obrazy i Moss Bowl ze
+          stabilizovaných květin, mechu a dalších přírodních materiálů.
+        </p>
+        <p>
+          Každý kus vzniká ručně v Babicích nad Svitavou a při správném umístění vydrží krásný několik
+          let bez zalévání a náročné péče.
+        </p>
+        <p>Objevte jedinečnou dekoraci pro svůj domov nebo výjimečný dárek, který nezvadne.</p>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-xl) var(--space-2xl);
+  }
+
+  .section {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .section__more {
+    display: flex;
+    justify-content: center;
+    margin: var(--space-xl) 0 0;
+  }
+
+  .intro {
+    text-align: center;
+    padding: var(--space-2xl) var(--space-lg);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+  }
+
+  .intro__title {
+    margin: 0 0 var(--space-lg);
+    font-size: clamp(1.85rem, 4vw, 2.5rem);
+    line-height: 1.4;
+    color: var(--text);
+  }
+
+  .intro__content {
+    font-size: 1.05rem;
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+import type { Product } from "../data/catalog";
+import ProductCard from "./ProductCard.astro";
+
+interface Props {
+  products: Product[];
+  emptyMessage?: string;
+}
+
+const { products, emptyMessage = "V této kategorii zatím nemáme načtené produkty." } = Astro.props;
+---
+
+{
+  products.length > 0 ? (
+    <ul class="grid">
+      {products.map((product) => (
+        <li>
+          <ProductCard product={product} />
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p class="empty">{emptyMessage}</p>
+  )
+}
+
+<style>
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  @media (min-width: 720px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .empty {
+    text-align: center;
+    color: var(--muted);
+    max-width: 32rem;
+    margin: var(--space-2xl) auto;
+  }
+</style>

@@ -1,0 +1,274 @@
+---
+import { catalog, formatPrice } from "../data/catalog";
+import { withBase } from "../data/paths";
+import Icon from "./Icon.astro";
+
+interface Props {
+  id: string;
+  wide?: boolean;
+}
+
+const { id, wide = false } = Astro.props;
+
+const searchIndex = {
+  products: catalog.products.map((product) => ({
+    id: product.id,
+    name: product.name,
+    href: withBase(`/p/${product.id}/`),
+    price: formatPrice(product.priceCzk),
+  })),
+  categories: catalog.categories.map((category) => ({
+    name: category.title,
+    href: withBase(`/${category.slug}/`),
+  })),
+};
+---
+
+<form class:list={["header-search", { "header-search--wide": wide }]} action={withBase("/hledat/")} method="get" data-header-search>
+  <label class="sr-only" for={id}>Hledat v nabídce</label>
+  <input
+    id={id}
+    name="q"
+    type="search"
+    placeholder="Hledat"
+    autocomplete="off"
+    maxlength="80"
+  />
+  <button type="submit" aria-label="Hledat">
+    <Icon name="search" size={18} />
+  </button>
+  <div class="header-search__panel" hidden data-search-panel></div>
+  <script type="application/json" data-search-index set:html={JSON.stringify(searchIndex)}></script>
+</form>
+
+<script>
+  const normalize = (value: string) =>
+    value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+
+  const bindSearch = (form: HTMLFormElement) => {
+    if (form.dataset.bound === "true") return;
+    form.dataset.bound = "true";
+    const input = form.querySelector("input");
+    const panel = form.querySelector("[data-search-panel]");
+    const raw = form.querySelector("[data-search-index]")?.textContent;
+    if (!input || !panel || !raw) return;
+
+    const index = JSON.parse(raw) as {
+      products: { id: string; name: string; href: string; price: string }[];
+      categories: { name: string; href: string }[];
+    };
+
+    const hide = () => {
+      panel.hidden = true;
+      panel.innerHTML = "";
+    };
+
+    const escapeHtml = (value: string) =>
+      value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+
+    const render = () => {
+      const rawQuery = input.value.trim();
+      const query = normalize(rawQuery);
+      if (query.length < 2) {
+        hide();
+        return;
+      }
+
+      const categories = index.categories
+        .filter((item) => normalize(item.name).includes(query))
+        .slice(0, 3);
+      const products = index.products
+        .filter((item) => normalize(item.name).includes(query))
+        .slice(0, 6);
+      const resultsHref = `/hledat/?q=${encodeURIComponent(rawQuery)}`;
+
+      if (!categories.length && !products.length) {
+        panel.innerHTML = `<p class="header-search__empty">Nic jsme nenašli</p>
+          <a class="header-search__all" href="${resultsHref}">Hledat „${escapeHtml(rawQuery)}“</a>`;
+        panel.hidden = false;
+        return;
+      }
+
+      const categoryHtml = categories
+        .map((item) => `<a href="${item.href}">${escapeHtml(item.name)}</a>`)
+        .join("");
+      const productHtml = products
+        .map(
+          (item) =>
+            `<a href="${item.href}"><span>${escapeHtml(item.name)}</span><em>${escapeHtml(item.price)}</em></a>`,
+        )
+        .join("");
+
+      panel.innerHTML = `${
+        categoryHtml ? `<p>Kategorie</p><div class="header-search__group">${categoryHtml}</div>` : ""
+      }${
+        productHtml ? `<p>Produkty</p><div class="header-search__group">${productHtml}</div>` : ""
+      }<a class="header-search__all" href="${resultsHref}">Zobrazit všechny výsledky</a>`;
+      panel.hidden = false;
+    };
+
+    input.addEventListener("input", render);
+    input.addEventListener("focus", render);
+    form.addEventListener("submit", (event) => {
+      if (!input.value.trim()) event.preventDefault();
+    });
+    document.addEventListener("click", (event) => {
+      if (!form.contains(event.target as Node)) hide();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") hide();
+    });
+  };
+
+  document.querySelectorAll<HTMLFormElement>("[data-header-search]").forEach(bindSearch);
+</script>
+
+<style>
+  .header-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 10.5rem;
+    height: 2.4rem;
+    flex-shrink: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--white);
+  }
+
+  .header-search--wide {
+    width: 100%;
+    height: 3rem;
+    margin: 0 0 var(--space-md);
+  }
+
+  .header-search input {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 0 0.15rem 0 0.95rem;
+  }
+
+  .header-search input::placeholder {
+    color: #7a6d66;
+  }
+
+  .header-search input:focus {
+    outline: none;
+  }
+
+  .header-search:focus-within {
+    border-color: var(--gold);
+  }
+
+  .header-search button {
+    display: grid;
+    place-items: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    margin-right: 0.1rem;
+    border: 0;
+    background: transparent;
+    color: var(--plum);
+    cursor: pointer;
+  }
+
+  .header-search button:hover {
+    color: var(--gold);
+  }
+
+  .header-search__panel {
+    position: absolute;
+    top: calc(100% + 0.45rem);
+    right: 0;
+    z-index: 80;
+    width: min(22rem, 78vw);
+    padding: 0.75rem;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .header-search--wide .header-search__panel {
+    left: 0;
+    right: 0;
+    width: auto;
+  }
+
+  .header-search__panel :global(p) {
+    margin: 0.35rem 0 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .header-search__panel :global(.header-search__group) {
+    display: grid;
+  }
+
+  .header-search__panel :global(.header-search__group a),
+  .header-search__panel :global(.header-search__all),
+  .header-search__panel :global(.header-search__empty) {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.45rem 0.35rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--plum);
+  }
+
+  .header-search__panel :global(.header-search__group a:hover),
+  .header-search__panel :global(.header-search__all:hover) {
+    background: var(--cream);
+  }
+
+  .header-search__panel :global(.header-search__group em) {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  .header-search__panel :global(.header-search__empty) {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .header-search__panel :global(.header-search__all) {
+    margin-top: 0.2rem;
+    border-top: 1px solid var(--line);
+    color: var(--gold);
+  }
+
+  @media (max-width: 1279px) {
+    .header-search:not(.header-search--wide) {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .header-search:not(.header-search--wide) {
+      width: 12.5rem;
+    }
+  }
+</style>

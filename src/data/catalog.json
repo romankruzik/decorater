@@ -1,0 +1,293 @@
+{
+  "syncedAt": "2026-09-17T00:00:00.000Z",
+  "shopBaseUrl": "https://www.decorater.cz",
+  "categories": [
+    {
+      "slug": "flower-box",
+      "path": "/flower-box/",
+      "title": "Flower boxy",
+      "description": "Ručně vyráběné flower boxy ze stabilizovaných a sušených květin. Originální dekorace a dárky, které vydrží krásné několik let bez zalévání."
+    },
+    {
+      "slug": "kvetinove-obrazy",
+      "path": "/kvetinove-obrazy/",
+      "title": "Květinové obrazy",
+      "description": "Objevte ručně vyráběné květinové obrazy ze stabilizovaných a sušených květin. Vnesou do interiéru přírodní krásu, barvy a eleganci bez zalévání a náročné péče."
+    },
+    {
+      "slug": "mechove-obrazy",
+      "path": "/mechove-obrazy/",
+      "title": "Mechové obrazy",
+      "description": "Ručně vyráběné obrazy ze stabilizovaného mechu a přírodních materiálů."
+    },
+    {
+      "slug": "moss-bowl",
+      "path": "/moss-bowl/",
+      "title": "Moss Bowl",
+      "description": "Originální dekorace Moss Bowl se stabilizovaným mechem."
+    }
+  ],
+  "products": [
+    {
+      "id": "194",
+      "path": "/flower-box/pastels-mini-no-4/",
+      "shopUrl": "https://www.decorater.cz/flower-box/pastels-mini-no-4/",
+      "name": "Flower box – Pastels MINI No. 4",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/detail/194-3_flower-box--pastels-mini-no--4.png?ff=1&x=423&y=318&q=85&ts=6a8c3469&sg=2175fb9d",
+      "priceCzk": 340,
+      "isNew": true,
+      "inStock": true,
+      "category": "flower-box"
+    },
+    {
+      "id": "253",
+      "path": "/moss-bowl/moss-bowl-no--4/",
+      "shopUrl": "https://www.decorater.cz/moss-bowl/moss-bowl-no--4/",
+      "name": "Moss Bowl - No. 4",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/detail/253_moss-bowl-no-3-stabilizovany-mech.png?ff=1&x=423&y=318&q=85&ts=6a985a60&sg=2175fb9d",
+      "priceCzk": 890,
+      "isNew": true,
+      "inStock": true,
+      "category": "moss-bowl"
+    },
+    {
+      "id": "244",
+      "path": "/moss-bowl/moss-bowl-no--1/",
+      "shopUrl": "https://www.decorater.cz/moss-bowl/moss-bowl-no--1/",
+      "name": "Moss Bowl – No. 1",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/detail/244_moss-bowl-no-1.png?ff=1&x=423&y=318&q=85",
+      "priceCzk": 990,
+      "isNew": true,
+      "inStock": true,
+      "category": "moss-bowl"
+    },
+    {
+      "id": "247",
+      "path": "/moss-bowl/moss-bowl-no--2/",
+      "shopUrl": "https://www.decorater.cz/moss-bowl/moss-bowl-no--2/",
+      "name": "Moss Bowl – No. 2",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/detail/247-2_moss-bowl-no-2-ze-stabilizovaneho-mechu-decorater.png?ff=1&x=423&y=318&q=85&ts=6a8c353d&sg=2175fb9d",
+      "priceCzk": 990,
+      "isNew": true,
+      "inStock": true,
+      "category": "moss-bowl"
+    },
+    {
+      "id": "265",
+      "path": "/flower-box/flower-box-pink-passion/",
+      "shopUrl": "https://www.decorater.cz/flower-box/flower-box-pink-passion/",
+      "name": "Flower box Pink Passion",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/big/265-1_flower-box-pink-passion-decorater-final.png?ff=1&x=1024&y=768&q=85&ts=6a8c84d0&sg=161563f2",
+      "priceCzk": 650,
+      "isNew": false,
+      "inStock": true,
+      "category": "flower-box"
+    },
+    {
+      "id": "262",
+      "path": "/flower-box/flower-box-blush-whisper/",
+      "shopUrl": "https://www.decorater.cz/flower-box/flower-box-blush-whisper/",
+      "name": "Flower box Blush Whisper",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/detail/262_flower-box-blush-whisper.png?ff=1&x=423&y=318&q=85",
+      "priceCzk": 650,
+      "isNew": false,
+      "inStock": true,
+      "category": "flower-box"
+    },
+    {
+      "id": "259",
+      "path": "/flower-box/flower-box-pink-blush/",
+      "shopUrl": "https://www.decorater.cz/flower-box/flower-box-pink-blush/",
+      "name": "Flower box Pink Blush",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/detail/259_flower-box-pink-blush.png?ff=1&x=423&y=318&q=85",
+      "priceCzk": 1690,
+      "isNew": false,
+      "inStock": true,
+      "category": "flower-box"
+    },
+    {
+      "id": "256",
+      "path": "/flower-box/golden-romance/",
+      "shopUrl": "https://www.decorater.cz/flower-box/golden-romance/",
+      "name": "Golden Romance",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/detail/256-1_flower-box-golden-romance.png?ff=1&x=423&y=318&q=85&ts=6a57def6&sg=2175fb9d",
+      "priceCzk": 1690,
+      "isNew": false,
+      "inStock": true,
+      "category": "flower-box"
+    },
+    {
+      "id": "224",
+      "path": "/flower-box/red-passion/",
+      "shopUrl": "https://www.decorater.cz/flower-box/red-passion/",
+      "name": "Red Passion",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/detail/224_flower-box-red-passion.png?ff=1&x=423&y=318&q=85&ts=6a57e19a&sg=2175fb9d",
+      "priceCzk": 690,
+      "isNew": false,
+      "inStock": true,
+      "category": "flower-box"
+    },
+    {
+      "id": "212",
+      "path": "/flower-box/pastels-no-4/",
+      "shopUrl": "https://www.decorater.cz/flower-box/pastels-no-4/",
+      "name": "Pastels No. 4",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/detail/212_flower-box-pastels-no-4.png?ff=1&x=423&y=318&q=85&ts=6a57e017&sg=2175fb9d",
+      "priceCzk": 750,
+      "isNew": false,
+      "inStock": true,
+      "category": "flower-box"
+    },
+    {
+      "id": "206",
+      "path": "/flower-box/ruby-garden/",
+      "shopUrl": "https://www.decorater.cz/flower-box/ruby-garden/",
+      "name": "Ruby Garden",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/detail/206-2_flower-box-ruby-garden.png?ff=1&x=423&y=318&q=85&ts=6a57db5d&sg=2175fb9d",
+      "priceCzk": 990,
+      "isNew": false,
+      "inStock": true,
+      "category": "flower-box"
+    },
+    {
+      "id": "200",
+      "path": "/flower-box/ruby-emerald/",
+      "shopUrl": "https://www.decorater.cz/flower-box/ruby-emerald/",
+      "name": "Ruby Emerald",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/detail/200_flower-box-ruby-emerald.png?ff=1&x=423&y=318&q=85&ts=6a57e1f6&sg=2175fb9d",
+      "priceCzk": 720,
+      "isNew": false,
+      "inStock": true,
+      "category": "flower-box"
+    },
+    {
+      "id": "116",
+      "path": "/kvetinove-obrazy/sunlit-bloom-framed/",
+      "shopUrl": "https://www.decorater.cz/kvetinove-obrazy/sunlit-bloom-framed/",
+      "name": "Květinový obraz v černém rámu – Sunlit Bloom",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/big/116-1_kvetinovy-obraz-sunlit-bloom-framed.png?ff=1&x=1024&y=768&q=85",
+      "priceCzk": 1190,
+      "isNew": false,
+      "inStock": true,
+      "category": "kvetinove-obrazy"
+    },
+    {
+      "id": "113",
+      "path": "/kvetinove-obrazy/summer-meadow-framed/",
+      "shopUrl": "https://www.decorater.cz/kvetinove-obrazy/summer-meadow-framed/",
+      "name": "Květinový obraz v bílém rámu – Summer Meadow",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/big/113-1_kvetinovy-obraz-summer-meadow-framed.png?ff=1&x=1024&y=768&q=85",
+      "priceCzk": 1190,
+      "isNew": false,
+      "inStock": true,
+      "category": "kvetinove-obrazy"
+    },
+    {
+      "id": "149",
+      "path": "/mechove-obrazy/mechovy-obraz-klid-lesa/",
+      "shopUrl": "https://www.decorater.cz/mechove-obrazy/mechovy-obraz-klid-lesa/",
+      "name": "Mechový obraz – Klid lesa",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/big/149_navrh-bez-nazvu-2026-06-29t182531-127.png?ff=1&x=1024&y=768&q=85",
+      "priceCzk": 2490,
+      "isNew": false,
+      "inStock": true,
+      "category": "mechove-obrazy"
+    },
+    {
+      "id": "143",
+      "path": "/mechove-obrazy/mechovy-obraz-tajemstvi-mechu/",
+      "shopUrl": "https://www.decorater.cz/mechove-obrazy/mechovy-obraz-tajemstvi-mechu/",
+      "name": "Mechový obraz - Tajemství mechu",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/big/143-1_navrh-bez-nazvu--78.png?ff=1&x=1024&y=768&q=85",
+      "priceCzk": 1590,
+      "isNew": false,
+      "inStock": true,
+      "category": "mechove-obrazy"
+    },
+    {
+      "id": "125",
+      "path": "/mechove-obrazy/mechovy-obraz-jarni-louka/",
+      "shopUrl": "https://www.decorater.cz/mechove-obrazy/mechovy-obraz-jarni-louka/",
+      "name": "Mechový obraz – Jarní louka",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/big/125_mechovy-obraz---jarni-louka.jpg?ff=1&x=1024&y=768&q=85",
+      "priceCzk": 1690,
+      "isNew": false,
+      "inStock": true,
+      "category": "mechove-obrazy"
+    },
+    {
+      "id": "122",
+      "path": "/mechove-obrazy/mechovy-obraz-lesni-stezka/",
+      "shopUrl": "https://www.decorater.cz/mechove-obrazy/mechovy-obraz-lesni-stezka/",
+      "name": "Mechový obraz - Lesní stezka",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/big/122_navrh-bez-nazvu--79.png?ff=1&x=1024&y=768&q=85",
+      "priceCzk": 1690,
+      "isNew": false,
+      "inStock": true,
+      "category": "mechove-obrazy"
+    },
+    {
+      "id": "250",
+      "path": "/moss-bowl/moss-bowl-no--3/",
+      "shopUrl": "https://www.decorater.cz/moss-bowl/moss-bowl-no--3/",
+      "name": "Moss Bowl – No. 3",
+      "image": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/shop/big/250_moss-bowl-no-3-stabilizovany-mech--1.webp?ff=1&x=1024&y=768&q=85",
+      "priceCzk": 890,
+      "isNew": true,
+      "inStock": true,
+      "category": "moss-bowl"
+    }
+  ],
+  "homepage": {
+    "heroSlides": [
+      {
+        "href": "/flower-box/",
+        "src": "/hero/11-3-bg.png",
+        "alt": "Ručně vyráběný flower box ze stabilizovaných květin Decorater",
+        "title": "Krása, která vydrží roky.",
+        "text": "Proměňte svůj domov v místo plné elegance. Každý flower box je ručně vyráběný ze stabilizovaných květin a navržený tak, aby dělal radost po mnoho let.",
+        "features": [
+          { "icon": "leaf", "label": "Vydrží dlouhé roky" },
+          { "icon": "hands", "label": "Ruční výroba" },
+          { "icon": "home", "label": "Pro moderní interiéry" },
+          { "icon": "gift", "label": "Ideální dárek" }
+        ],
+        "cta": "Objevit kolekci"
+      },
+      {
+        "href": "/moss-bowl/",
+        "src": "/hero/11-1-bg.png",
+        "alt": "Originální dekorace Moss Bowl se stabilizovaným mechem od Decorater",
+        "kicker": "Novinka",
+        "scriptTitle": "Moss Bowl",
+        "text": "Elegantní dekorace z pravého mechu a přírodních materiálů, které přinášejí klid, harmonii a krásu do každého interiéru.",
+        "features": [
+          { "icon": "leaf", "label": "Přírodní materiály" },
+          { "icon": "hands", "label": "Ruční výroba" },
+          { "icon": "home", "label": "Pro moderní interiéry" },
+          { "icon": "gift", "label": "Ideální dárek" }
+        ],
+        "cta": "Objevit kolekci"
+      },
+      {
+        "href": "/mechove-obrazy/",
+        "src": "/hero/11-2-bg.png",
+        "alt": "Ručně vyráběný obraz ze stabilizovaného mechu a rostlin od Decorater",
+        "title": "Přírodní krása, která oživí každý interiér.",
+        "text": "Mechové obrazy z pravého mechu přinášejí do vašeho domova harmonii, klid a jedinečný design s dlouhou životností.",
+        "features": [
+          { "icon": "leaf", "label": "100% přírodní" },
+          { "icon": "hands", "label": "Ruční výroba" },
+          { "icon": "home", "label": "Pro moderní interiéry" },
+          { "icon": "gift", "label": "Ideální dárek" }
+        ],
+        "cta": "Objevit kolekci"
+      }
+    ],
+    "promoBanner": {
+      "src": "https://cdn.myshoptet.com/usr/www.decorater.cz/user/banners/banner-doprava-orezany.png?6a578702",
+      "alt": "Informace o dopravě Decorater"
+    },
+    "newCollectionProductIds": ["194", "253", "244", "247"]
+  }
+}

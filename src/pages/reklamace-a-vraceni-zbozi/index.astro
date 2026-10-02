@@ -1,0 +1,50 @@
+---
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import { pdfs } from "../../data/articles";
+---
+
+<ProseLayout title="Reklamace a vrácení zboží">
+  <h1>Reklamace a vrácení zboží</h1>
+
+  <h2>Obchodní podmínky</h2>
+  <p>
+    Aktuální obchodní podmínky internetového obchodu Decorater.cz jsou platné od 6. 1. 2025.
+    Dokument stáhnete na stránce
+    <a href="/obchodni-podminky/">Obchodní podmínky</a>
+    nebo přímo jako
+    <a href={pdfs.terms} target="_blank" rel="noopener noreferrer">PDF</a>.
+  </p>
+
+  <h2>Zásady zpracování osobních údajů</h2>
+  <p>
+    Informace o zpracování osobních údajů najdete v dokumentu
+    <a href={pdfs.privacy} target="_blank" rel="noopener noreferrer">Zásady zpracování osobních údajů</a>.
+  </p>
+
+  <h2>Odstoupení od kupní smlouvy</h2>
+  <p>
+    Jako spotřebitel máte právo odstoupit od kupní smlouvy v zákonné čtrnáctidenní lhůtě. Pro
+    odstoupení od smlouvy můžete využít
+    <a href={pdfs.withdrawal} target="_blank" rel="noopener noreferrer">připravený formulář</a>.
+  </p>
+  <p>
+    Vyplněný formulář zašlete na
+    <a href="mailto:info@decorater.cz">info@decorater.cz</a>
+    nebo jej přiložte vytištěný společně s vraceným zbožím.
+  </p>
+
+  <h2>Reklamace</h2>
+  <p>
+    Pokud zásilka dorazila poškozená nebo jste na výrobku zjistili vadu, napište nám na
+    <a href="mailto:info@decorater.cz">info@decorater.cz</a>.
+    Do zprávy uveďte číslo objednávky, popis závady a pokud možno přiložte fotografie.
+  </p>
+  <p>
+    Pro uplatnění reklamace můžete využít také
+    <a href={pdfs.claim} target="_blank" rel="noopener noreferrer">reklamační formulář</a>.
+  </p>
+  <p>
+    O přijetí reklamace vám vystavíme potvrzení. Reklamaci spotřebitele vyřídíme nejpozději do 30
+    dnů, pokud se společně nedohodneme na delší lhůtě.
+  </p>
+</ProseLayout>

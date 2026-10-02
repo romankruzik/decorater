@@ -1,0 +1,42 @@
+---
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import { pdfs } from "../../data/articles";
+---
+
+<ProseLayout title="Obchodní podmínky">
+  <h1>Obchodní podmínky</h1>
+  <p>Zde jsou uvedeny naše obchodní podmínky platné od 6. 1. 2025.</p>
+
+  <div class="doc-list">
+    <a href={pdfs.terms} target="_blank" rel="noopener noreferrer">Obchodní podmínky – PDF</a>
+  </div>
+
+  <h2>Zásady zpracování osobních údajů</h2>
+  <p>Zásady zpracování osobních údajů platné od 6. 1. 2025.</p>
+  <div class="doc-list">
+    <a href={pdfs.privacy} target="_blank" rel="noopener noreferrer">
+      Zásady zpracování osobních údajů – PDF
+    </a>
+  </div>
+
+  <h2>Odstoupení od kupní smlouvy</h2>
+  <p>
+    Pokud chcete využít právo na odstoupení od kupní smlouvy v zákonné 14denní lhůtě, použijte
+    následující formulář.
+  </p>
+  <div class="doc-list">
+    <a href={pdfs.withdrawal} target="_blank" rel="noopener noreferrer">Formulář pro odstoupení – PDF</a>
+  </div>
+
+  <h2>Reklamace</h2>
+  <p>V případě reklamace použijte následující formulář.</p>
+  <div class="doc-list">
+    <a href={pdfs.claim} target="_blank" rel="noopener noreferrer">Formulář reklamace – PDF</a>
+  </div>
+
+  <p>
+    Vyplněné formuláře zašlete elektronicky na
+    <a href="mailto:info@decorater.cz">info@decorater.cz</a>
+    nebo je přiložte vytištěné společně se zbožím.
+  </p>
+</ProseLayout>

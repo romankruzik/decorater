@@ -1,0 +1,25 @@
+---
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import { shopUrl } from "../../data/site";
+---
+
+<ProseLayout title="Moje objednávka">
+  <h1>Moje objednávka</h1>
+  <p>
+    Stav objednávky, fakturu a doručení spravuje e-shop Decorater. Po odeslání objednávky vám
+    přijde potvrzení na e-mail. Pokud máte číslo objednávky, můžete stav ověřit přímo v e-shopu.
+  </p>
+  <p>
+    <a class="btn btn-primary" href={shopUrl("/moje-objednavka/")} target="_blank" rel="noopener noreferrer">
+      Ověřit objednávku v e-shopu
+    </a>
+  </p>
+  <h2>Potřebujete pomoct?</h2>
+  <p>
+    Napište nám na
+    <a href="mailto:info@decorater.cz">info@decorater.cz</a>
+    nebo zavolejte na
+    <a href="tel:+420723963777">+420 723 963 777</a>.
+    Do zprávy přiložte číslo objednávky.
+  </p>
+</ProseLayout>

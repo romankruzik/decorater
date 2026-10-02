@@ -1,0 +1,110 @@
+---
+import { shopUrl } from "../data/site";
+import { withBase } from "../data/paths";
+---
+
+<section class="newsletter" aria-labelledby="newsletter-title">
+  <div class="container newsletter__inner">
+    <h2 id="newsletter-title">Odebírat newsletter</h2>
+    <form class="newsletter__form" action={shopUrl("/action/MailForm/subscribeToNewsletters/")} method="post">
+      <input type="hidden" name="formId" value="2" />
+      <input type="hidden" name="consents[]" value="31" />
+      <p class="sr-only">
+        <label>
+          Nevyplňujte toto pole
+          <input type="text" name="surname" value="" autocomplete="off" tabindex="-1" />
+        </label>
+      </p>
+      <label class="newsletter__email">
+        E-mail
+        <input id="newsletter-email" type="email" name="email" autocomplete="email" required />
+      </label>
+      <button class="btn btn-primary" type="submit">Přihlásit se</button>
+    </form>
+    <p class="newsletter__consent">
+      Vložením e-mailu souhlasíte s
+      <a href={withBase("/podminky-ochrany-osobnich-udaju/")}>podmínkami ochrany osobních údajů</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .newsletter {
+    margin-top: var(--space-3xl);
+    padding-block: var(--space-2xl);
+    background: var(--white);
+    border-top: 1px solid var(--line);
+  }
+
+  .newsletter__inner {
+    max-width: 36rem;
+    text-align: center;
+  }
+
+  .newsletter h2 {
+    margin: 0 0 var(--space-lg);
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3vw, 2.15rem);
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .newsletter__form {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .newsletter__email {
+    display: grid;
+    gap: 0.4rem;
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--plum);
+  }
+
+  .newsletter__email input {
+    width: 100%;
+    min-height: 3.15rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--cream);
+    color: var(--text);
+    font: inherit;
+    font-weight: 500;
+  }
+
+  .newsletter__email input:focus {
+    outline: 2px solid var(--gold);
+    outline-offset: 1px;
+    background: var(--white);
+  }
+
+  .newsletter__form .btn {
+    width: 100%;
+  }
+
+  .newsletter__consent {
+    margin: var(--space-md) 0 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .newsletter__consent a {
+    font-weight: 600;
+  }
+
+  @media (min-width: 640px) {
+    .newsletter__form {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+
+    .newsletter__form .btn {
+      width: auto;
+      min-width: 10.5rem;
+    }
+  }
+</style>

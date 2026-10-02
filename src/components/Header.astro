@@ -1,0 +1,341 @@
+---
+import { mainNav, site, shopUrl } from "../data/site";
+import HeaderSearch from "./HeaderSearch.astro";
+import Icon from "./Icon.astro";
+import LoginDialog from "./LoginDialog.astro";
+import { withBase } from "../data/paths";
+
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href={withBase("/")}>
+      <img src={site.logo} alt={site.name} width="280" height="84" decoding="async" />
+    </a>
+
+    <nav class="site-header__nav" aria-label="Hlavní menu">
+      <ul>
+        {
+          mainNav.map((item) => {
+            const href = item.href;
+            const isActive =
+              pathname === href.replace(/\/$/, "") ||
+              pathname.startsWith(href.replace(/\/$/, ""));
+            return (
+              <li>
+                <a href={href} class:list={[{ active: isActive }]}>
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <div class="site-header__tools">
+      <HeaderSearch id="header-search" />
+      <button
+        type="button"
+        class="icon-btn"
+        data-login-open
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="login-dialog"
+        aria-label="Přihlášení"
+      >
+        <Icon name="login" />
+      </button>
+      <a href={shopUrl("/kosik/")} class="icon-btn" aria-label="Košík">
+        <Icon name="cart" />
+      </a>
+      <button type="button" class="icon-btn site-header__menu-btn" data-menu-open aria-expanded="false" aria-controls="mobile-menu">
+        <Icon name="menu" />
+        <span class="sr-only">Menu</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="mobile-menu" hidden data-mobile-menu>
+    <div class="mobile-menu__panel">
+      <div class="mobile-menu__head">
+        <span class="mobile-menu__title">Menu</span>
+        <button type="button" class="icon-btn" data-menu-close aria-label="Zavřít menu">
+          <Icon name="close" />
+        </button>
+      </div>
+      <HeaderSearch id="header-search-mobile" wide />
+      <ul class="mobile-menu__list">
+        {
+          mainNav.map((item) => {
+            const href = item.href;
+            return (
+              <li>
+                <a href={href}>
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+        <li>
+          <a href={withBase("/prihlaseni/")}>Přihlášení</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<LoginDialog />
+
+<script>
+  const openBtn = document.querySelector("[data-menu-open]");
+  const closeBtn = document.querySelector("[data-menu-close]");
+  const menu = document.querySelector("[data-mobile-menu]");
+  const loginOpen = document.querySelector("[data-login-open]");
+  const loginClose = document.querySelector("[data-login-close]");
+  const loginDialog = document.querySelector("[data-login-dialog]");
+
+  const setOpen = (open) => {
+    if (!menu || !openBtn) return;
+    menu.hidden = !open;
+    openBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    document.body.classList.toggle("menu-open", open);
+  };
+
+  const setLoginOpen = (open) => {
+    if (!loginDialog || !loginOpen) return;
+    loginDialog.hidden = !open;
+    loginOpen.setAttribute("aria-expanded", open ? "true" : "false");
+    document.body.classList.toggle("login-open", open);
+    if (open) {
+      loginDialog.querySelector("input")?.focus();
+    }
+  };
+
+  openBtn?.addEventListener("click", () => setOpen(true));
+  closeBtn?.addEventListener("click", () => setOpen(false));
+  menu?.addEventListener("click", (e) => {
+    if (e.target === menu) setOpen(false);
+  });
+  menu?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
+
+  loginOpen?.addEventListener("click", () => setLoginOpen(true));
+  loginClose?.addEventListener("click", () => setLoginOpen(false));
+  loginDialog?.addEventListener("click", (e) => {
+    if (e.target === loginDialog) setLoginOpen(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      setOpen(false);
+      setLoginOpen(false);
+    }
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(247, 241, 235, 0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .site-header__inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--space-md);
+    row-gap: 0.2rem;
+    min-height: var(--header-height);
+    padding-block: 0.55rem;
+  }
+
+  .site-header__logo {
+    flex-shrink: 0;
+  }
+
+  .site-header__logo img {
+    width: auto;
+    height: 5rem;
+    max-height: 5rem;
+  }
+
+  .site-header__nav {
+    flex: 1;
+    display: none;
+    min-width: 0;
+  }
+
+  .site-header__nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    gap: 0.15rem 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-header__nav a {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text);
+    padding: 0.5rem 0;
+    white-space: nowrap;
+  }
+
+  .site-header__nav a:hover,
+  .site-header__nav a.active {
+    color: var(--gold);
+  }
+
+  .site-header__tools {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  .icon-btn {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .icon-btn svg {
+    fill: none;
+    stroke: currentColor;
+  }
+
+  .icon-btn:hover {
+    color: var(--gold);
+    background: rgba(255, 255, 255, 0.65);
+  }
+
+  .site-header__menu-btn {
+    display: grid;
+  }
+
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    width: 100%;
+    height: 100%;
+    min-height: 100dvh;
+    background: var(--cream);
+  }
+
+  .mobile-menu__panel {
+    width: 100%;
+    height: 100%;
+    min-height: 100dvh;
+    background: var(--cream);
+    padding: var(--space-md);
+    padding-bottom: max(var(--space-md), env(safe-area-inset-bottom));
+  }
+
+  .mobile-menu__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+    padding: 0.35rem 0.25rem 0.85rem;
+    background: var(--cream);
+  }
+
+  .mobile-menu__title {
+    font-family: var(--font-body);
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .mobile-menu__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+    background: var(--cream);
+  }
+
+  .mobile-menu__list a {
+    position: relative;
+    display: block;
+    padding: 1.05rem 0.5rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.6;
+    text-decoration: none;
+    color: var(--text);
+    background: var(--cream);
+    border: 0;
+  }
+
+  .mobile-menu__list a::after {
+    content: "";
+    position: absolute;
+    left: 0.85rem;
+    right: 0.85rem;
+    bottom: 0;
+    height: 1px;
+    background: #e3d2c2;
+  }
+
+  .mobile-menu__list li:last-child a::after {
+    display: none;
+  }
+
+  .mobile-menu__list a:hover,
+  .mobile-menu__list a:focus-visible {
+    background: var(--white);
+    color: var(--text);
+  }
+
+  :global(body.menu-open) {
+    overflow: hidden;
+  }
+
+  @media (min-width: 960px) {
+    .site-header__nav {
+      display: block;
+    }
+
+    .site-header__menu-btn {
+      display: none;
+    }
+
+    .icon-btn {
+      width: 2.65rem;
+      height: 2.65rem;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .site-header__nav ul {
+      flex-wrap: nowrap;
+      gap: 1.15rem;
+    }
+
+    .site-header__nav a {
+      font-size: 0.88rem;
+    }
+  }
+</style>

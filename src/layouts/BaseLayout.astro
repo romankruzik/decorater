@@ -1,0 +1,58 @@
+---
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Newsletter from "../components/Newsletter.astro";
+import { site } from "../data/site";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.description } = Astro.props;
+const pageTitle = title ? `${title} | ${site.name}` : `${site.tagline} | ${site.name}`;
+---
+
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/png" href="https://www.decorater.cz/favicon-32x32.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Great+Vibes&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Přejít na obsah</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Newsletter />
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    background: var(--plum);
+    color: var(--white);
+  }
+
+  .skip-link:focus {
+    left: var(--space-md);
+    top: var(--space-md);
+  }
+</style>

@@ -1,0 +1,355 @@
+---
+import type { Product } from "../data/catalog";
+import { catalog } from "../data/catalog";
+import ProductCard from "./ProductCard.astro";
+
+interface Props {
+  products: Product[];
+  showCategoryFilter?: boolean;
+}
+
+const { products, showCategoryFilter = false } = Astro.props;
+const prices = products.map((product) => product.priceCzk).filter((price): price is number => price != null);
+const minPrice = prices.length ? Math.min(...prices) : 0;
+const maxPrice = prices.length ? Math.max(...prices) : 0;
+
+const sorts = [
+  { id: "recommended", label: "Doporučujeme" },
+  { id: "newest", label: "Nejnovější" },
+  { id: "cheapest", label: "Nejlevnější" },
+  { id: "expensive", label: "Nejdražší" },
+  { id: "name-az", label: "Název A–Z" },
+  { id: "name-za", label: "Název Z–A" },
+] as const;
+---
+
+<div class="catalog" data-catalog>
+  <div class="catalog__tabs" role="tablist" aria-label="Řazení produktů">
+    {
+      sorts.map((sort, index) => (
+        <button
+          type="button"
+          class:list={["btn", index === 0 ? "btn-primary" : "btn-outline"]}
+          role="tab"
+          aria-selected={index === 0 ? "true" : "false"}
+          data-sort={sort.id}
+        >
+          {sort.label}
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="catalog__filters">
+    {
+      showCategoryFilter && (
+        <fieldset>
+          <legend>Kategorie</legend>
+          <div class="chips">
+            {catalog.categories.map((category) => (
+              <label class="chip">
+                <input type="checkbox" name="category" value={category.slug} />
+                <span>{category.title}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      )
+    }
+
+    <fieldset>
+      <legend>Dostupnost</legend>
+      <div class="chips">
+        <label class="chip">
+          <input type="checkbox" name="stock" value="in" />
+          <span>Skladem</span>
+        </label>
+        <label class="chip">
+          <input type="checkbox" name="stock" value="out" />
+          <span>Na dotaz</span>
+        </label>
+        <label class="chip">
+          <input type="checkbox" name="new" value="1" />
+          <span>Novinky</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset class="price">
+      <legend>Cena</legend>
+      <div class="price__fields">
+        <label>
+          Od
+          <input type="number" name="min" min={minPrice} max={maxPrice} placeholder={String(minPrice)} inputmode="numeric" />
+        </label>
+        <label>
+          Do
+          <input type="number" name="max" min={minPrice} max={maxPrice} placeholder={String(maxPrice)} inputmode="numeric" />
+        </label>
+        <span class="price__hint">Kč</span>
+      </div>
+    </fieldset>
+  </div>
+
+  <p class="catalog__count" data-count></p>
+
+  <ul class="catalog__grid">
+    {
+      products.map((product, index) => (
+        <li
+          data-name={product.name}
+          data-price={product.priceCzk ?? ""}
+          data-new={product.isNew ? "1" : "0"}
+          data-stock={product.inStock ? "in" : "out"}
+          data-category={product.category}
+          data-order={index}
+        >
+          <ProductCard product={product} />
+        </li>
+      ))
+    }
+  </ul>
+  <p class="catalog__empty" hidden data-empty>
+    Těmto filtrům zatím nic neodpovídá. Upravte cenu, dostupnost nebo kategorii.
+  </p>
+</div>
+
+<script>
+  const bindCatalog = (root: HTMLElement) => {
+    if (root.dataset.bound === "true") return;
+    root.dataset.bound = "true";
+
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-sort]")];
+    const items = [...root.querySelectorAll<HTMLLIElement>(".catalog__grid > li")];
+    const grid = root.querySelector(".catalog__grid");
+    const count = root.querySelector("[data-count]");
+    const empty = root.querySelector("[data-empty]");
+    const categoryInputs = [...root.querySelectorAll<HTMLInputElement>('input[name="category"]')];
+    const stockInputs = [...root.querySelectorAll<HTMLInputElement>('input[name="stock"]')];
+    const newInput = root.querySelector<HTMLInputElement>('input[name="new"]');
+    const minInput = root.querySelector<HTMLInputElement>('input[name="min"]');
+    const maxInput = root.querySelector<HTMLInputElement>('input[name="max"]');
+    if (!grid) return;
+
+    const selected = (inputs: HTMLInputElement[]) => inputs.filter((input) => input.checked).map((input) => input.value);
+
+    const apply = () => {
+      const sort = tabs.find((tab) => tab.getAttribute("aria-selected") === "true")?.dataset.sort ?? "recommended";
+      const categories = selected(categoryInputs);
+      const stocks = selected(stockInputs);
+      const onlyNew = Boolean(newInput?.checked);
+      const min = minInput?.value ? Number(minInput.value) : null;
+      const max = maxInput?.value ? Number(maxInput.value) : null;
+
+      const visible = items.filter((item) => {
+        const price = item.dataset.price ? Number(item.dataset.price) : null;
+        if (categories.length && !categories.includes(item.dataset.category ?? "")) return false;
+        if (stocks.length && !stocks.includes(item.dataset.stock ?? "")) return false;
+        if (onlyNew && item.dataset.new !== "1") return false;
+        if (min != null && (price == null || price < min)) return false;
+        if (max != null && (price == null || price > max)) return false;
+        return true;
+      });
+
+      visible.sort((a, b) => {
+        const priceA = Number(a.dataset.price || 0);
+        const priceB = Number(b.dataset.price || 0);
+        const nameA = (a.dataset.name ?? "").localeCompare(b.dataset.name ?? "", "cs");
+        const orderA = Number(a.dataset.order);
+        const orderB = Number(b.dataset.order);
+        if (sort === "newest") return Number(b.dataset.new) - Number(a.dataset.new) || orderA - orderB;
+        if (sort === "cheapest") return priceA - priceB;
+        if (sort === "expensive") return priceB - priceA;
+        if (sort === "name-az") return nameA;
+        if (sort === "name-za") return -nameA;
+        return orderA - orderB;
+      });
+
+      items.forEach((item) => {
+        item.hidden = true;
+      });
+      visible.forEach((item) => {
+        item.hidden = false;
+        grid.append(item);
+      });
+
+      if (count) count.textContent = `Zobrazeno ${visible.length} z ${items.length} produktů`;
+      empty?.toggleAttribute("hidden", visible.length > 0);
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((other) => {
+          const active = other === tab;
+          other.setAttribute("aria-selected", active ? "true" : "false");
+          other.classList.toggle("btn-primary", active);
+          other.classList.toggle("btn-outline", !active);
+        });
+        apply();
+      });
+    });
+
+    root.querySelectorAll("input").forEach((input) => {
+      input.addEventListener("change", apply);
+      input.addEventListener("input", apply);
+    });
+
+    apply();
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-catalog]").forEach(bindCatalog);
+</script>
+
+<style>
+  .catalog__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.55rem;
+    margin-bottom: var(--space-lg);
+  }
+
+  .catalog__tabs .btn {
+    flex: 0 1 auto;
+    min-height: 2.55rem;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.95rem;
+  }
+
+  .catalog__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-lg) var(--space-xl);
+    margin-bottom: var(--space-xl);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+  }
+
+  .catalog__filters fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    flex: 1 1 16rem;
+  }
+
+  .catalog__filters legend {
+    margin-bottom: 0.65rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--plum);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .chip {
+    cursor: pointer;
+  }
+
+  .chip input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .chip span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding: 0.45rem 0.95rem;
+    border: 1px solid var(--text);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .chip:hover span {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .chip:has(input:checked) span,
+  .chip:has(input:focus-visible) span {
+    background: var(--plum);
+    border-color: var(--plum);
+    color: var(--white);
+  }
+
+  .price__fields {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 0.75rem;
+  }
+
+  .price__fields label {
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .price__fields input {
+    width: 7.5rem;
+    min-height: 2.7rem;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font: inherit;
+    font-weight: 500;
+  }
+
+  .price__hint {
+    padding-bottom: 0.7rem;
+    font-weight: 700;
+  }
+
+  .catalog__count {
+    margin: 0 0 var(--space-lg);
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .catalog__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  @media (min-width: 720px) {
+    .catalog__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .catalog__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .catalog__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .catalog__empty {
+    text-align: center;
+    color: var(--muted);
+    max-width: 32rem;
+    margin: var(--space-xl) auto 0;
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import { shopUrl } from "../../data/site";
+import { withBase } from "../../data/paths";
+---
+
+<ProseLayout title="Nová registrace">
+  <h1>Nová registrace</h1>
+  <p>Založte si účet a mějte přehled o objednávkách, doručení i oblíbených dekoracích.</p>
+  <form class="account-form" action={shopUrl("/registrace/")} method="get">
+    <label>
+      E-mail
+      <input type="email" name="email" autocomplete="email" required />
+    </label>
+    <button class="btn btn-primary" type="submit">Pokračovat k registraci</button>
+  </form>
+  <p class="account-links">
+    <a href={withBase("/prihlaseni/")}>Už účet máte? Přihlaste se</a>
+  </p>
+</ProseLayout>
+
+<style>
+  .account-form {
+    display: grid;
+    gap: 0.95rem;
+    max-width: 24rem;
+  }
+
+  .account-form label {
+    display: grid;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--plum);
+  }
+
+  .account-form input {
+    min-height: 2.9rem;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font: inherit;
+  }
+
+  .account-links {
+    margin-top: var(--space-lg);
+    font-weight: 700;
+  }
+</style>

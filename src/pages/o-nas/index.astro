@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="O nás"
+  description="Decorater – ručně vyráběné flower boxy, mechové obrazy a dekorace z Babic nad Svitavou."
+>
+  <div class="container page">
+    <header class="page-header">
+      <h1>Když se příroda promění v dekoraci, která vydrží</h1>
+    </header>
+    <div class="prose content">
+      <p>
+        Decorater je malá lokální značka z Babic nad Svitavou. V naší dílně ručně vytváříme flower
+        boxy, Moss Bowls, květinové a mechové obrazy ze stabilizovaných a sušených přírodních
+        materiálů.
+      </p>
+      <p>
+        Každý výrobek vzniká jednotlivě a s důrazem na detail. Nevyrábíme sériové dekorace – každý
+        kus má vlastní kombinaci barev, tvarů a přírodních prvků, a je proto originálem.
+      </p>
+      <p>
+        Stabilizované květiny a mech si zachovávají svůj vzhled po dlouhou dobu bez zalévání a
+        náročné péče. Naše dekorace tak mohou dělat radost několik let, ať už jako součást interiéru,
+        nebo jako osobní dárek.
+      </p>
+      <p>
+        Hotové výrobky pečlivě balíme a zasíláme po celé České republice. Po Brně a okolí nabízíme
+        také vlastní dopravu, aby se k vám citlivější dekorace dostaly bezpečně a v perfektním stavu.
+      </p>
+      <p>Děkujeme, že podporujete ruční a lokální tvorbu.</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-xl) var(--space-3xl);
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+
+  .content {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+  }
+</style>

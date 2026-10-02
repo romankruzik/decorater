@@ -1,0 +1,172 @@
+---
+import Icon from "../../components/Icon.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { catalog, formatPrice } from "../../data/catalog";
+import { withBase } from "../../data/paths";
+
+export function getStaticPaths() {
+  return catalog.products.map((product) => ({
+    params: { id: product.id },
+  }));
+}
+
+const { id } = Astro.params;
+const product = catalog.products.find((p) => p.id === id);
+if (!product) {
+  throw new Error(`Neznámý produkt: ${id}`);
+}
+
+const category = catalog.categories.find((c) => c.slug === product.category);
+---
+
+<BaseLayout title={product.name}>
+  <div class="container page">
+    <nav class="breadcrumb" aria-label="Drobečková navigace">
+      <a href={withBase("/")}>Domů</a>
+      {category && (
+        <>
+          <span aria-hidden="true">/</span>
+          <a href={withBase(`/${category.slug}/`)}>{category.title}</a>
+        </>
+      )}
+    </nav>
+
+    <article class="detail">
+      <div class="detail__media">
+        {
+          product.image ? (
+            <img src={product.image} alt={product.name} width="800" height="600" />
+          ) : (
+            <div class="detail__placeholder" />
+          )
+        }
+        {product.isNew && <span class="detail__badge">Novinka</span>}
+      </div>
+      <div class="detail__info">
+        <h1>{product.name}</h1>
+        <p class="detail__price">{formatPrice(product.priceCzk)}</p>
+        {
+          product.inStock ? (
+            <p class="detail__stock">Skladem</p>
+          ) : (
+            <p class="detail__stock detail__stock--muted">Dostupnost na dotaz</p>
+          )
+        }
+        <p class="detail__note">
+          Ručně vyráběná dekorace ze stabilizovaných přírodních materiálů. Objednávku dokončíte v
+          e-shopu Decorater.
+        </p>
+        <div class="detail__actions">
+          <a href={product.shopUrl} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            <Icon name="cart" size={18} />
+            Koupit v e-shopu
+          </a>
+          {
+            category && (
+              <a href={withBase(`/${category.slug}/`)} class="btn btn-outline">
+                Zpět na {category.title}
+              </a>
+            )
+          }
+        </div>
+      </div>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-xl) var(--space-3xl);
+  }
+
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: var(--space-lg);
+    font-size: 1.05rem;
+    color: var(--text);
+  }
+
+  .breadcrumb a {
+    text-decoration: none;
+  }
+
+  .detail {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .detail__media {
+    position: relative;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .detail__media img {
+    width: 100%;
+    object-fit: contain;
+  }
+
+  .detail__placeholder {
+    aspect-ratio: 4 / 3;
+    background: var(--line);
+  }
+
+  .detail__badge {
+    position: absolute;
+    top: var(--space-md);
+    left: var(--space-md);
+    padding: 0.35rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: var(--cream);
+    color: var(--text);
+    border-radius: var(--radius-sm);
+  }
+
+  .detail__info h1 {
+    margin-top: 0;
+  }
+
+  .detail__price {
+    margin: 0 0 var(--space-sm);
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .detail__stock {
+    margin: 0 0 var(--space-md);
+    font-weight: 600;
+    color: var(--success);
+  }
+
+  .detail__stock--muted {
+    color: var(--muted);
+  }
+
+  .detail__note {
+    color: var(--text);
+    line-height: 1.85;
+  }
+
+  .detail__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+  }
+
+  @media (min-width: 860px) {
+    .detail {
+      grid-template-columns: 1.1fr 1fr;
+    }
+  }
+</style>

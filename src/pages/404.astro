@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../data/paths";
+---
+
+<BaseLayout title="Stránka nenalezena">
+  <div class="container page">
+    <h1>404</h1>
+    <p>Stránka neexistuje.</p>
+    <a class="btn btn-primary" href={withBase("/")}>Zpět na úvod</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding: var(--space-3xl) 0;
+    text-align: center;
+  }
+</style>

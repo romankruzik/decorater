@@ -1,0 +1,129 @@
+---
+import { footerInfoLinks, site } from "../data/site";
+import Icon from "./Icon.astro";
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <section aria-labelledby="footer-info">
+      <h2 id="footer-info">Informace pro vás</h2>
+      <ul>
+        {
+          footerInfoLinks.map((link) => (
+            <li>
+              <a href={link.href}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section aria-labelledby="footer-contact">
+      <h2 id="footer-contact">Kontakt</h2>
+      <p class="contact-name">{site.contact.name}</p>
+      <ul class="contact-list">
+        <li>
+          <a href={`mailto:${site.contact.email}`}>
+            <Icon name="mail" size={24} />
+            {site.contact.email}
+          </a>
+        </li>
+        <li>
+          <a href={site.contact.phoneHref}>
+            <Icon name="mobile" size={24} />
+            {site.contact.phone}
+          </a>
+        </li>
+      </ul>
+      <div class="social">
+        <a href={site.contact.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href={site.contact.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+      </div>
+    </section>
+
+    <section aria-labelledby="footer-payments">
+      <h2 id="footer-payments">Přijímáme online platby</h2>
+      <img src={site.paymentsImage} alt="Loga platebních karet" width="148" height="34" loading="lazy" />
+    </section>
+  </div>
+
+  <div class="site-footer__bottom">
+    <div class="container">
+      <p>© {new Date().getFullYear()} {site.name} · Babice nad Svitavou</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--footer-bg);
+    border-top: 1px solid var(--line);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    gap: var(--space-xl);
+    padding-block: var(--space-2xl);
+  }
+
+  .site-footer h2 {
+    margin: 0 0 var(--space-lg);
+    font-size: 1.35rem;
+    color: var(--text);
+  }
+
+  .site-footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-footer a,
+  .contact-name {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-decoration: none;
+  }
+
+  .site-footer section > ul li + li {
+    margin-top: 0.75rem;
+  }
+
+  .contact-name {
+    margin: 0 0 var(--space-sm);
+    font-weight: 600;
+  }
+
+  .contact-list a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0;
+    line-height: 1.7;
+  }
+
+  .social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+    font-weight: 600;
+  }
+
+  .site-footer__bottom {
+    border-top: 1px solid var(--line);
+    padding-block: var(--space-md);
+    font-size: 1rem;
+    color: var(--text);
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .site-footer__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

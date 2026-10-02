@@ -1,0 +1,56 @@
+---
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import { shopUrl } from "../../data/site";
+import { withBase } from "../../data/paths";
+---
+
+<ProseLayout title="Přihlášení">
+  <h1>Přihlášení k vašemu účtu</h1>
+  <form class="account-form" action={shopUrl("/action/Customer/Login/")} method="post">
+    <label>
+      E-mail
+      <input type="email" name="email" autocomplete="email" required />
+    </label>
+    <label>
+      Heslo
+      <input type="password" name="password" autocomplete="current-password" required />
+    </label>
+    <button class="btn btn-primary" type="submit">Přihlásit se</button>
+  </form>
+  <p class="account-links">
+    <a href={withBase("/registrace/")}>Nová registrace</a>
+    <a href={withBase("/klient/zapomenute-heslo/")}>Zapomenuté heslo</a>
+  </p>
+</ProseLayout>
+
+<style>
+  .account-form {
+    display: grid;
+    gap: 0.95rem;
+    max-width: 24rem;
+  }
+
+  .account-form label {
+    display: grid;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--plum);
+  }
+
+  .account-form input {
+    min-height: 2.9rem;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font: inherit;
+  }
+
+  .account-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.4rem;
+    margin-top: var(--space-lg);
+    font-weight: 700;
+  }
+</style>

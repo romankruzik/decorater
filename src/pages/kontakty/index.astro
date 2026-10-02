@@ -1,0 +1,119 @@
+---
+import Icon from "../../components/Icon.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { site } from "../../data/site";
+---
+
+<BaseLayout title="Kontakty">
+  <div class="container page">
+    <header class="page-header">
+      <h1>Kontakty</h1>
+      <p class="lead">
+        Potřebujete poradit s výběrem dekorace nebo máte zájem o výrobu na přání? Ozvěte se nám,
+        rádi vám pomůžeme.
+      </p>
+    </header>
+
+    <div class="cards">
+      <section class="card">
+        <h2>Kontakt</h2>
+        <p><strong>{site.contact.name}</strong></p>
+        <ul>
+          <li>
+            <a href={site.contact.phoneHref}>
+              <Icon name="phone" size={20} />
+              {site.contact.phone}
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${site.contact.email}`}>
+              <Icon name="mail" size={20} />
+              {site.contact.email}
+            </a>
+          </li>
+        </ul>
+        <p>Na zprávy odpovídáme zpravidla do jednoho pracovního dne.</p>
+      </section>
+
+      <section class="card">
+        <h2>Fakturační údaje</h2>
+        <p>
+          Jan Vonka<br />
+          Babice nad Svitavou 481<br />
+          664 01 Babice nad Svitavou<br />
+          IČO: 76201163
+        </p>
+        <p>Nejsem plátce DPH.</p>
+      </section>
+
+      <section class="card">
+        <h2>Platba převodem</h2>
+        <p>
+          Číslo účtu: 3248616013/3030<br />
+          Variabilní symbol: číslo vaší objednávky<br />
+          IBAN: CZ123030000003248616013
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Reklamace</h2>
+        <p>
+          Pokud s doručeným výrobkem není něco v pořádku, napište nám na
+          <a href="mailto:info@decorater.cz">info@decorater.cz</a>.
+        </p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-xl) var(--space-3xl);
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .lead {
+    color: var(--text);
+    max-width: 36rem;
+    margin-inline: auto;
+    line-height: 1.85;
+  }
+
+  .cards {
+    display: grid;
+    gap: var(--space-lg);
+    max-width: 42rem;
+    margin-inline: auto;
+  }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+  }
+
+  .card h2 {
+    margin-top: 0;
+  }
+
+  .card ul {
+    list-style: none;
+    margin: 0 0 var(--space-md);
+    padding: 0;
+    display: grid;
+    gap: var(--space-sm);
+  }
+
+  .card a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+</style>

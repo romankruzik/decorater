@@ -1,0 +1,155 @@
+---
+import type { Product } from "../data/catalog";
+import { formatPrice } from "../data/catalog";
+import { withBase } from "../data/paths";
+import Icon from "./Icon.astro";
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const detailHref = withBase(`/p/${product.id}/`);
+---
+
+<article class="card">
+  <a href={detailHref} class="card__media">
+    {
+      product.image ? (
+        <img src={product.image} alt={product.name} loading="lazy" width="800" height="600" />
+      ) : (
+        <div class="card__placeholder" />
+      )
+    }
+    {product.isNew && <span class="card__badge">Novinka</span>}
+  </a>
+  <div class="card__body">
+    <h3 class="card__title">
+      <a href={detailHref}>{product.name}</a>
+    </h3>
+    <p class="card__price">{formatPrice(product.priceCzk)}</p>
+    {
+      product.inStock ? (
+        <p class="card__stock">Skladem</p>
+      ) : (
+        <p class="card__stock card__stock--muted">Na dotaz</p>
+      )
+    }
+    <div class="card__actions">
+      <a href={detailHref} class="btn btn-outline">Detail</a>
+      <a href={product.shopUrl} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+        <Icon name="cart" size={20} />
+        Do košíku
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .card__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: var(--cream);
+  }
+
+  .card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .card__placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--line), var(--cream));
+  }
+
+  .card__badge {
+    position: absolute;
+    top: var(--space-sm);
+    left: var(--space-sm);
+    padding: 0.4rem 0.7rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+    background: var(--white);
+    border-radius: var(--radius-sm);
+  }
+
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+  }
+
+  .card__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .card__title a {
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .card__title a:hover {
+    color: var(--gold);
+  }
+
+  .card__price {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  .card__stock {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--success);
+  }
+
+  .card__stock--muted {
+    color: var(--muted);
+  }
+
+  .card__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+    margin-top: auto;
+    padding-top: var(--space-sm);
+  }
+
+  .card__actions .btn {
+    width: 100%;
+  }
+
+  @media (min-width: 720px) {
+    .card__actions {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

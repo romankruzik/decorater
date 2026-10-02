@@ -1,0 +1,22 @@
+---
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import { pdfs } from "../../data/articles";
+---
+
+<ProseLayout title="Podmínky ochrany osobních údajů">
+  <h1>Podmínky ochrany osobních údajů</h1>
+  <p>
+    Zásady zpracování osobních údajů Decorater.cz ve formátu PDF, platné od 6. 1. 2025.
+  </p>
+  <div class="doc-list">
+    <a href={pdfs.privacy} target="_blank" rel="noopener noreferrer">
+      Stáhnout zásady zpracování osobních údajů
+    </a>
+  </div>
+  <p>
+    V případě dotazů nás kontaktujte na
+    <a href="mailto:info@decorater.cz">info@decorater.cz</a>
+    nebo na telefonu
+    <a href="tel:+420723963777">+420 723 963 777</a>.
+  </p>
+</ProseLayout>

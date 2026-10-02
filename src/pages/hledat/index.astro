@@ -1,0 +1,202 @@
+---
+import ProductCard from "../../components/ProductCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { catalog } from "../../data/catalog";
+import { withBase } from "../../data/paths";
+---
+
+<BaseLayout title="Hledat">
+  <div class="container page" data-search-page>
+    <header class="page-header">
+      <h1 data-search-title>Hledat v nabídce</h1>
+      <form class="page-search" action={withBase("/hledat/")} method="get">
+        <label class="sr-only" for="search-q">Hledaný výraz</label>
+        <input
+          id="search-q"
+          name="q"
+          type="search"
+          placeholder="Název produktu nebo kategorie"
+        />
+        <button class="btn btn-primary" type="submit">Hledat</button>
+      </form>
+    </header>
+
+    <p class="hint" data-search-hint>
+      Zadejte, co hledáte — například Moss Bowl, flower box nebo mechové obrazy.
+    </p>
+
+    <section class="cats" data-search-cats hidden>
+      <h2>Kategorie</h2>
+      <ul>
+        {
+          catalog.categories.map((category) => (
+            <li data-search={`${category.title} ${category.slug}`}>
+              <a href={withBase(`/${category.slug}/`)}>{category.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section data-search-products hidden>
+      <h2 data-product-heading>Produkty</h2>
+      <ul class="grid">
+        {
+          catalog.products.map((product) => (
+            <li data-search={`${product.name} ${product.category}`}>
+              <ProductCard product={product} />
+            </li>
+          ))
+        }
+      </ul>
+      <p class="empty" data-search-empty hidden>
+        V katalogu jsme nic nenašli. Zkuste kratší výraz, například moss nebo flower.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  const normalize = (value: string) =>
+    value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+
+  const page = document.querySelector("[data-search-page]");
+  if (page) {
+    const title = page.querySelector("[data-search-title]");
+    const hint = page.querySelector("[data-search-hint]");
+    const cats = page.querySelector("[data-search-cats]");
+    const products = page.querySelector("[data-search-products]");
+    const heading = page.querySelector("[data-product-heading]");
+    const empty = page.querySelector("[data-search-empty]");
+    const input = document.querySelector<HTMLInputElement>("#search-q");
+    const catItems = cats?.querySelectorAll("li") ?? [];
+    const productItems = products?.querySelectorAll("li") ?? [];
+
+    const apply = () => {
+      const query = new URLSearchParams(location.search).get("q")?.trim() ?? "";
+      if (input) input.value = query;
+      if (title) title.textContent = query ? `Výsledky pro „${query}“` : "Hledat v nabídce";
+      document.title = query ? `Hledání: ${query} | Decorater` : "Hledat | Decorater";
+
+      if (!query) {
+        hint?.removeAttribute("hidden");
+        cats?.setAttribute("hidden", "");
+        products?.setAttribute("hidden", "");
+        return;
+      }
+
+      hint?.setAttribute("hidden", "");
+      const needle = normalize(query);
+      let catCount = 0;
+      catItems.forEach((item) => {
+        const match = normalize(item.dataset.search ?? "").includes(needle);
+        item.hidden = !match;
+        if (match) catCount += 1;
+      });
+      cats?.toggleAttribute("hidden", catCount === 0);
+
+      let productCount = 0;
+      productItems.forEach((item) => {
+        const match = normalize(item.dataset.search ?? "").includes(needle);
+        item.hidden = !match;
+        if (match) productCount += 1;
+      });
+      products?.removeAttribute("hidden");
+      if (heading) heading.textContent = productCount > 0 ? `Produkty (${productCount})` : "Žádné produkty";
+      empty?.toggleAttribute("hidden", productCount > 0);
+    };
+
+    apply();
+  }
+</script>
+
+<style>
+  .page {
+    padding-block: var(--space-xl) var(--space-3xl);
+  }
+
+  .page-header h1 {
+    margin-bottom: var(--space-md);
+  }
+
+  .page-search {
+    display: flex;
+    gap: 0.65rem;
+    max-width: 36rem;
+    margin-bottom: var(--space-xl);
+  }
+
+  .page-search input {
+    flex: 1;
+    min-height: 3.15rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font: inherit;
+  }
+
+  .hint,
+  .empty {
+    color: var(--muted);
+  }
+
+  .cats {
+    margin-bottom: var(--space-xl);
+  }
+
+  .cats h2,
+  section h2 {
+    font-size: 1.15rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .cats ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cats a {
+    display: inline-flex;
+    padding: 0.45rem 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.92rem;
+  }
+
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  @media (min-width: 720px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

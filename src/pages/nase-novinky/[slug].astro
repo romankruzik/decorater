@@ -1,0 +1,55 @@
+---
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import { articles, getArticle } from "../../data/articles";
+import { withBase } from "../../data/paths";
+
+export function getStaticPaths() {
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const article = getArticle(slug!);
+if (!article) {
+  throw new Error(`Neznámý článek: ${slug}`);
+}
+---
+
+<ProseLayout title={article.title} description={article.excerpt}>
+  <p class="back"><a href={withBase("/nase-novinky/")}>← Zpět na články</a></p>
+  <h1>{article.title}</h1>
+  {
+    article.body.map((block) => {
+      if (block.type === "h2") return <h2>{block.text}</h2>;
+      if (block.type === "h3") return <h3>{block.text}</h3>;
+      if (block.type === "p") return <p>{block.text}</p>;
+      if (block.type === "ul")
+        return (
+          <ul>
+            {block.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        );
+      return (
+        <ol>
+          {block.items.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ol>
+      );
+    })
+  }
+</ProseLayout>
+
+<style>
+  .back {
+    margin-bottom: var(--space-lg);
+    font-weight: 700;
+  }
+
+  .back a {
+    text-decoration: none;
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+import CatalogListing from "../../components/CatalogListing.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { catalog } from "../../data/catalog";
+---
+
+<BaseLayout
+  title="Celá nabídka e-shopu"
+  description="Kompletní nabídka ručně vyráběných flower boxů, květinových a mechových obrazů i Moss Bowl od Decorater."
+>
+  <div class="container page">
+    <header class="page-header">
+      <h1>Celá nabídka e-shopu</h1>
+      <p class="page-header__lead">
+        Všechny aktuální dekorace z dílny Decorater na jednom místě. Řazení a filtry máte hned po ruce.
+      </p>
+    </header>
+    <CatalogListing products={catalog.products} showCategoryFilter />
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-xl) var(--space-3xl);
+  }
+
+  .page-header {
+    text-align: center;
+    max-width: 46rem;
+    margin: 0 auto var(--space-xl);
+  }
+
+  .page-header h1 {
+    margin: 0 0 var(--space-md);
+  }
+
+  .page-header__lead {
+    margin: 0;
+    color: var(--text);
+    line-height: 1.85;
+  }
+</style>
